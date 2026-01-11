@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kolaborasi Chaos - Game Session</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Sidebar Kiri: Info Pemain dan Sistem -->
+        <div class="sidebar left-sidebar">
+            <div class="player-info">
+                <h3><i class="fas fa-user-astronaut"></i> INFO ANDA</h3>
+                <div class="info-card">
+                    <p><strong>Nama:</strong> <span id="playerName">-</span></p>
+                    <p><strong>Peran:</strong> <span id="playerRole" class="role-secret">???</span></p>
+                    <p><strong>Objective:</strong> <span id="playerObjective">-</span></p>
+                    <p><strong>Tombol Rahasia:</strong> <span id="secretButtons">3</span>x</p>
+                </div>
+            </div>
+            
+            <div class="ship-systems">
+                <h3><i class="fas fa-cogs"></i> SISTEM KAPAL</h3>
+                <div id="systemsList">
+                    <!-- Sistem akan diisi oleh JS -->
+                </div>
+            </div>
+            
+            <div class="secret-actions">
+                <h3><i class="fas fa-bolt"></i> AKSI RAHASIA</h3>
+                <div class="action-buttons">
+                    <button class="action-btn" data-action="lights" title="Matikan lampu 30 detik">
+                        <i class="fas fa-lightbulb"></i> Lampu
+                    </button>
+                    <button class="action-btn" data-action="engine" title="Ganggu sistem mesin">
+                        <i class="fas fa-rocket"></i> Mesin
+                    </button>
+                    <button class="action-btn" data-action="door" title="Buka pintu darurat">
+                        <i class="fas fa-door-open"></i> Pintu
+                    </button>
+                    <button class="action-btn" data-action="hack" title="Hack navigasi">
+                        <i class="fas fa-code"></i> Hack
+                    </button>
+                </div>
+                <p class="action-hint">Gunakan dengan bijak! Tersisa: <span id="remainingUses">3</span></p>
+            </div>
+        </div>
+        
+        <!-- Area Game Utama -->
+        <div class="main-game-area">
+            <div class="game-header">
+                <div class="room-info">
+                    <h2><i class="fas fa-space-shuttle"></i> KAPAL CHAOS</h2>
+                    <p>Room: <span id="roomCodeDisplay">----</span> | Pemain: <span id="playerCount">0</span>/10</p>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <i class="fas fa-heart"></i>
+                        <span id="shipHealth">100</span>%
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-road"></i>
+                        <span id="distance">0</span>/100
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-clock"></i>
+                        <span id="timeLeft">15:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-map">
+                <div class="map-container">
+                    <div class="start-point">
+                        <i class="fas fa-flag-checkered"></i>
+                        <p>START</p>
+                    </div>
+                    <div class="distance-track">
+                        <div class="track-line"></div>
+                        <div class="ship-position" id="shipPosition">
+                            <i class="fas fa-space-shuttle"></i>
+                        </div>
+                    </div>
+                    <div class="end-point">
+                        <i class="fas fa-globe-americas"></i>
+                        <p>TUJUAN</p>
+                    </div>
+                </div>
+                <div class="map-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p>Progress Perjalanan: <span id="progressPercent">0</span>%</p>
+                </div>
+            </div>
+            
+            <div class="game-actions">
+                <h3><i class="fas fa-tools"></i> AKSI PERBAIKAN</h3>
+                <div class="repair-buttons">
+                    <!-- Tombol perbaikan akan diisi oleh JS -->
+                </div>
+                <p class="hint">Klik untuk memperbaiki sistem. Technician lebih efektif!</p>
+            </div>
+            
+            <div class="events-log">
+                <h3><i class="fas fa-exclamation-triangle"></i> LOG EVENT</h3>
+                <div class="events-list" id="eventsList">
+                    <div class="event-item system">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Selamat datang di Kapal Chaos!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar Kanan: Chat dan Pemain -->
+        <div class="sidebar right-sidebar">
+            <div class="players-list">
+                <h3><i class="fas fa-users"></i> PEMAIN (<span id="totalPlayers">0</span>)</h3>
+                <div class="players-container" id="playersContainer">
+                    <!-- Daftar pemain akan diisi oleh JS -->
+                </div>
+            </div>
+            
+            <div class="voting-section">
+                <h3><i class="fas fa-vote-yea"></i> VOTING</h3>
+                <p>Curiga ada pengacau? Vote untuk mengeluarkan pemain!</p>
+                <select id="voteSelect">
+                    <option value="">Pilih pemain yang dicurigai</option>
+                </select>
+                <button id="submitVote" class="btn-vote">
+                    <i class="fas fa-check-circle"></i> Submit Vote
+                </button>
+                <div id="voteStatus" class="vote-status">
+                    Menunggu pemain lain...
+                </div>
+            </div>
+            
+            <div class="chat-section">
+                <h3><i class="fas fa-comments"></i> CHAT</h3>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message system">
+                        <span class="sender">System</span>
+                        <span class="text">Gunakan chat untuk berkomunikasi dengan kru!</span>
+                        <span class="time">00:00</span>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Ketik pesan...">
+                    <button id="sendChat">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal untuk Role Reveal -->
+        <div id="roleModal" class="modal hidden">
+            <div class="modal-content">
+                <h2><i class="fas fa-user-secret"></i> PERAN RAHASIA</h2>
+                <div class="role-card">
+                    <h3 id="revealedRole">LOADING...</h3>
+                    <p id="revealedObjective">Tunggu sebentar...</p>
+                    <p class="role-warning">JANGAN BAGIKAN PERAN ANDA KE PEMAIN LAIN!</p>
+                </div>
+                <button id="closeModal" class="btn-modal">Lanjutkan ke Game</button>
+            </div>
+        </div>
+        
+        <!-- Modal Game Over -->
+        <div id="gameOverModal" class="modal hidden">
+            <div class="modal-content game-over">
+                <h2 id="gameOverTitle">GAME OVER</h2>
+                <div class="result-stats">
+                    <p><i class="fas fa-heart"></i> Kesehatan Kapal: <span id="finalHealth">0</span>%</p>
+                    <p><i class="fas fa-road"></i> Jarak Tempuh: <span id="finalDistance">0</span>/100</p>
+                    <p><i class="fas fa-clock"></i> Waktu Tersisa: <span id="finalTime">0:00</span></p>
+                </div>
+                <div class="winners-list">
+                    <h3><i class="fas fa-trophy"></i> PEMENANG</h3>
+                    <ul id="winnersList"></ul>
+                </div>
+                <button id="playAgain" class="btn-modal">Main Lagi</button>
+                <button id="backToLobby" class="btn-modal secondary">Kembali ke Lobby</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification hidden"></div>
+    
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kolaborasi Chaos - Game Online Multiplayer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-user-secret"></i> KOLABORASI CHAOS</h1>
+            <p class="subtitle">Game Multiplayer dengan Peran Rahasia</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="game-description">
+                <h2><i class="fas fa-rocket"></i> Tentang Game</h2>
+                <p>Bekerja sama dalam sebuah kapal luar angkasa dengan peran rahasia! 
+                   Setiap pemain memiliki tujuan tersembunyi. Siapa yang bisa dipercaya?</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-users"></i>
+                        <h3>2-10 Pemain</h3>
+                        <p>Mainkan dengan teman atau pemain online</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-user-secret"></i>
+                        <h3>Peran Rahasia</h3>
+                        <p>Captain, Technician, Spy, AI, atau Saboteur</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Tombol Rahasia</h3>
+                        <p>3x aksi spesial untuk mengacaukan permainan</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-setup">
+                <div class="setup-card">
+                    <h2><i class="fas fa-play-circle"></i> Mulai Bermain</h2>
+                    
+                    <div class="input-group">
+                        <label for="username"><i class="fas fa-user"></i> Nama Pemain</label>
+                        <input type="text" id="username" placeholder="Masukkan nama Anda" maxlength="15" value="Player">
+                    </div>
+                    
+                    <div class="button-group">
+                        <button id="createRoom" class="btn btn-primary">
+                            <i class="fas fa-plus-circle"></i> Buat Room Baru
+                        </button>
+                        <p class="divider">ATAU</p>
+                        <div class="join-group">
+                            <input type="text" id="roomCode" placeholder="Kode Room" maxlength="5" style="text-transform: uppercase">
+                            <button id="joinRoom" class="btn btn-secondary">
+                                <i class="fas fa-sign-in-alt"></i> Gabung
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="roomInfo" class="room-info hidden">
+                        <h3><i class="fas fa-door-open"></i> Room: <span id="currentRoomCode">----</span></h3>
+                        <p>Bagikan kode ini ke teman Anda:</p>
+                        <div class="room-code-display">
+                            <span id="displayRoomCode">----</span>
+                            <button id="copyCode" class="btn-small">
+                                <i class="far fa-copy"></i> Salin
+                            </button>
+                        </div>
+                        <p>Pemain yang bergabung:</p>
+                        <ul id="playerList"></ul>
+                        <button id="startGame" class="btn btn-success" disabled>
+                            <i class="fas fa-play"></i> Mulai Game (Min. 2 Pemain)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Cara Bermain</h3>
+            <ol>
+                <li>Buat atau gabung room dengan kode</li>
+                <li>Tunggu pemain lain bergabung (2-10 pemain)</li>
+                <li>Dapatkan peran rahasia saat game dimulai</li>
+                <li>Bekerja sama untuk membawa kapal ke tujuan</li>
+                <li>Tapi... waspada! Setiap pemain punya agenda tersembunyi</li>
+            </ol>
+        </div>
+        
+        <div class="footer">
+            <p>Game Online Multiplayer • Dibuat dengan Socket.io • Deploy di Vercel</p>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification hidden"></div>
+    
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
